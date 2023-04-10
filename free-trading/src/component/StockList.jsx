@@ -10,27 +10,21 @@ const StockList = () => {
   useEffect (() => {
     let isMounted = true
     const fetchData = async () => {
-      const responses = []
+      const responses = [];
       try {
-        const response1 = await finnhub.get("/quote", {
+        const responses = Promise.all(finnhub.get("/quote", {
           params: {
             symbol: "GOOGLE"
           }
-        })
-        responses.push(response1)
-        const response2 = await finnhub.get("/quote", {
+        }), finnhub.get("/quote", {
           params: {
             symbol: "MICROSOFT"
           }
-        })
-        responses.push(response2)
-
-        const response3 = await finnhub.get("/quote", {
+        }), finnhub.get("/quote", {
           params: {
             symbol: "AMAZON"
           }
-        })
-        responses.push(response3)
+        }))
 
         console.log(responses);
         if (isMounted) {
@@ -45,6 +39,7 @@ const StockList = () => {
 
     return () => (isMounted = false)
   },[])
+  
   return (
     <div>StockList</div>
   )
