@@ -4,9 +4,9 @@ import StockList from '../component/StockList';
 
 const StockOverViewPage = () => {
   return (
-    <div>StockOverViewPage
-      <StockList />
+    <div>
       <AutoComplete />
+      <StockList />
     </div>
 
   )
