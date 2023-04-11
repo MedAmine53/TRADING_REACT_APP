@@ -3,7 +3,26 @@ import finnhub from '../api/finnhub';
 
 const AutoComplete = () => {
   const [search, setSearch] = useState("");
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState([]);
+
+
+  const renderDropDown = () => {
+    const dropDownClass = search ? 'show' : null;
+    return (
+      <ul style={{
+        height:"500px",
+        overflowY:"scroll",
+        overflowX: "pointer",
+        cursor: 'pointer'
+      }} className={`dropdown-menu ${dropDownClass}`}>
+        {results.map((result) => {
+          return (
+            <li key={result.symbol} className='dropdown-item'>{result.description} ({result.symbol})</li>
+          )
+        })}
+      </ul>
+    )
+  }
 
   useEffect(() => {
     let isMounted = true
@@ -14,9 +33,9 @@ const AutoComplete = () => {
             q: search
           }
         })
-        console.log(response);
+
         if(isMounted){
-          setResults(response.data)
+          setResults(response.data.result)
         }
         
       } catch (error) {
@@ -25,6 +44,9 @@ const AutoComplete = () => {
     }
     if ( search.length > 0 ) {
       fetchData();
+    }
+    else{
+      setResults([])
     }
     return () => (isMounted = false);
   },[search])
@@ -35,12 +57,7 @@ const AutoComplete = () => {
 
         <input style={{ backgroundColor: "rgba(145, 158, 171, 0.04)"}} id='search' className='form-control' type="text" placeholder='Search' autoComplete='off' value={search} onChange={(e) => setSearch(e.target.value)}/>
         <label htmlFor="search">Search</label>
-        <ul className='dropdown-menu show'>
-          <li>Stock1</li>
-          <li>Stock2</li>
-          <li>Stock3</li>
-        </ul>
-
+        {renderDropDown()}
       </div>
     </div>
   )

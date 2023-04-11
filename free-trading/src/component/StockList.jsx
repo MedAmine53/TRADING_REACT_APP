@@ -1,14 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import finnhub from '../api/finnhub';
-import { AiFillCaretUp } from 'react-icons/ai'
+import { AiFillCaretUp } from 'react-icons/ai';
 import { AiFillCaretDown } from 'react-icons/ai'
 
 const StockList = () => {
   
-  const [stock, setStock] = useState([])
-  const [watchList, setWatchList] = useState(["GOOGLE","MICROSOFT","AMAZON"]);
-
+  const [stock, setStock] = useState([]);
 
   const changeColor = (change) => {
     return change > 0 ? "success" : "danger"
@@ -37,7 +35,7 @@ const StockList = () => {
           }
         })
 
-        console.log(data);
+        // console.log(data);
         // console.log(responses);
 
         if (isMounted) {
