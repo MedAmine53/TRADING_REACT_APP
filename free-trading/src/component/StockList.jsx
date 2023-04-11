@@ -15,7 +15,7 @@ const StockList = () => {
   }
 
   const changeIcon = (change) => {
-    return change > 0 ? <AiFillCaretUp /> :  <AiFillCaretDown />
+    return change > 0 ? <AiFillCaretUp /> : <AiFillCaretDown />
   }
 
   useEffect (() => {
