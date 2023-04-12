@@ -1,12 +1,12 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import finnhub from '../api/finnhub';
-import { AiFillCaretUp } from 'react-icons/ai';
-import { AiFillCaretDown } from 'react-icons/ai'
+import { AiFillCaretUp, AiFillCaretDown } from 'react-icons/ai';
+import { WatchListContext } from '../ctx/WatchListContext';
 
 const StockList = () => {
-  
+
   const [stock, setStock] = useState([]);
+  const { watchList } = useContext(WatchListContext);
 
   const changeColor = (change) => {
     return change > 0 ? "success" : "danger"
@@ -35,9 +35,6 @@ const StockList = () => {
           }
         })
 
-        // console.log(data);
-        // console.log(responses);
-
         if (isMounted) {
           setStock(data)
         }
@@ -49,7 +46,7 @@ const StockList = () => {
     fetchData();
 
     return () => (isMounted = false)
-  },[])
+  }, [watchList] )
   
   return (
     <div>
