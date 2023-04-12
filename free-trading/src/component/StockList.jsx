@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext} from 'react';
+import { useNavigate } from 'react-router-dom'
 import finnhub from '../api/finnhub';
 import { AiFillCaretUp, AiFillCaretDown } from 'react-icons/ai';
 import { WatchListContext } from '../ctx/WatchListContext';
@@ -7,6 +8,8 @@ const StockList = () => {
 
   const [stock, setStock] = useState([]);
   const { watchList } = useContext(WatchListContext);
+  
+  const navigate = useNavigate();
 
   const changeColor = (change) => {
     return change > 0 ? "success" : "danger"
@@ -47,6 +50,11 @@ const StockList = () => {
 
     return () => (isMounted = false)
   }, [watchList] )
+
+
+  const handleStockSelect = (symbol) => {
+    navigate(`detail/${symbol}`)
+  }
   
   return (
     <div>
@@ -68,7 +76,7 @@ const StockList = () => {
         <tbody>
           {stock.map((stockData) => {
             return (
-              <tr className='table-row' key={stockData.symbol}>
+              <tr onClick={() => handleStockSelect(stockData.symbol)} className='table-row' key={stockData.symbol}>
                 <th scope='row'>{stockData.symbol}</th>
                 <td>{stockData.data.c}</td>
                 <td className={`text-${changeColor(stockData.data.d)}`}>{stockData.data.d}{changeIcon(stockData.data.d)}</td>
