@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import finnhub from '../api/finnhub'
 
 const StockDetailPage = () => {
+  const [chartData, setChartData] = useState()
   const { symbol } = useParams();
 
   useEffect(() => {
@@ -21,34 +22,34 @@ const StockDetailPage = () => {
       const oneWeek = currentTime - 7*24*60*60;
       const oneYear = currentTime - 365*24*60*60
 
-      const responseDay = await finnhub.get("/stock/candle", {
-        params: {
-          symbol,
-          from: oneDay,
-          to:currentTime,
-          resolution:30
-        }
-      })
-      const responseWeek = await finnhub.get("/stock/candle", {
-        params: {
-          symbol,
-          from: oneWeek,
-          to:currentTime,
-          resolution:60
-        }
-      })
-      const responseYear = await finnhub.get("/stock/candle", {
-        params: {
-          symbol,
-          from: oneDay,
-          to:oneYear,
-          resolution:"W"
-        }
-      })
-      console.log(responseDay);
-      console.log(responseWeek);
-      console.log(responseYear);
+      try {
+        const responses = await Promise.all([finnhub.get("/stock/candle", {
+          params: {
+            symbol,
+            from: oneDay,
+            to:currentTime,
+            resolution:30
+          }
+        }), finnhub.get("/stock/candle", {
+          params: {
+            symbol,
+            from: oneWeek,
+            to:currentTime,
+            resolution:60
+          }
+        }), finnhub.get("/stock/candle", {
+          params: {
+            symbol,
+            from: oneWeek,
+            to:currentTime,
+            resolution:60
+          }
+        })])
+      } catch (error) {
+        
+      }
     }
+    console.log(responses);
     fetchData()
   },[])
 
@@ -57,5 +58,9 @@ const StockDetailPage = () => {
     <div>StockDetailPage {symbol} </div>
   )
 }
+
+const data = [{
+  w
+}]
 
 export default StockDetailPage 
