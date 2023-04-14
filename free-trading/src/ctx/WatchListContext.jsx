@@ -5,7 +5,7 @@ export const WatchListContext = createContext();
 
 export const WatchListContextProvider = (props) => {
 
-  const [watchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN"]);
+  const [watchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN","AAPL"]);
 
 
   const addStock = (stock) => {
