@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import finnhub from '../api/finnhub'
+import finnhub from '../api/finnhub';
+import { StockChart } from '../component/StockChart';
+
+
+const formatData = (data) => {
+  console.log(data); 
+  return data.t.map((el, index) => {
+    return {
+      x: el * 1000,
+      y: Math.floor(data.c[index])
+    }
+  })
+}
 
 const StockDetailPage = () => {
   const [chartData, setChartData] = useState()
@@ -40,27 +52,38 @@ const StockDetailPage = () => {
         }), finnhub.get("/stock/candle", {
           params: {
             symbol,
-            from: oneWeek,
+            from: oneYear,
             to:currentTime,
-            resolution:60
+            resolution:"W"
           }
         })])
+        console.log(responses);
+
+        setChartData({
+          day: formatData(responses[0].data),
+          week: formatData(responses[1].data),
+          year: formatData(responses[2].data) 
+      })
+
       } catch (error) {
-        
+        console.log(error)
       }
     }
-    console.log(responses);
     fetchData()
-  },[])
+  },[symbol])
 
 
   return (
-    <div>StockDetailPage {symbol} </div>
+    <div>
+      {chartData && (
+        <div>
+          <StockChart />
+        </div>
+      )}
+    </div>
   )
 }
 
-const data = [{
-  w
-}]
+
 
 export default StockDetailPage 
