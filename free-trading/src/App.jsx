@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import StockDetailPage from './pages/StockDetailPage'
 import StockOverViewPage from './pages/StockOverViewPage'
 import { WatchListContextProvider } from './ctx/WatchListContext'
+import NotFound from './component/NotFound'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Routes>
             <Route path='/' element={<StockOverViewPage/>} /> 
             <Route path='/detail/:symbol' element={<StockDetailPage />} />
+            <Route path='*' element = {<NotFound />} />
           </Routes>
         </BrowserRouter>
       </WatchListContextProvider>
